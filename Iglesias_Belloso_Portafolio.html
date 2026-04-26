@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="estilos.css" />
+        <script src="script.js"></script>
+        <title>Portafolio</title>
+    </head>
+    <body>
+        <div class="caja">
+            <div class="encabezado">
+                <h1>Portafolio</h1>
+            </div>
+            <div class="contenido">
+                <h2>Propósito</h2>
+                <div class="cajas-general">
+                    <p>
+                        Profundizar en <br />conocimientos y <br />competencias
+                    </p>
+                    <img
+                        src="Imagenes/giphy.gif"
+                        class="flecha-gif"
+                        alt="flecha hacia la derecha"
+                    />
+                    <p>Teoría y <br />ejemplos prácticos</p>
+                    <img
+                        src="Imagenes/giphy.gif"
+                        class="flecha-gif"
+                        alt="flecha hacia la derecha"
+                    />
+                    <p>El fenómeno de <br />la localización</p>
+                </div>
+                <h2>¿Qué es la localización (L10n)?</h2>
+                <div class="texto-localizacion">
+                    <img
+                        src="Imagenes/Thumbnail-Herramientas-Localizacion-y-TAV-v2.png"
+                        alt="Dos personas con un ordenador localizado"
+                        class="localizacion-imagen"
+                    />
+                    <p>
+                        <span class="texto-cuadro"
+                            >¿Es lo mismo que traducir?</span
+                        >
+                        <br /><img
+                            src="Imagenes/b0c1a5a9a82fe44b1b6c348100d6d4cb.gif"
+                            class="no"
+                            alt="gif que pone no"
+                        />
+                        <br />
+                        <strong><u>Localización</u></strong
+                        >: hacer local aquello que funcione y se use en un medio
+                        físico o tecnológico por diferentes motivos.
+                    </p>
+                </div>
+                <h3>Traducción vs. localización</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Traducción</th>
+                            <th>Localización</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Lengua origen > Lengua meta</td>
+                            <td>Adaptación a lengua meta</td>
+                        </tr>
+                        <tr>
+                            <td>Lenguaje</td>
+                            <td>Lenguaje, cultura, técnica</td>
+                        </tr>
+                        <tr>
+                            <td>Contenido visual no modificado</td>
+                            <td>Contenido visual modificado</td>
+                        </tr>
+                        <tr>
+                            <td>Sin cambios de código/interfaz</td>
+                            <td>Adaptación de interfaz y código básico</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Manuales, obras literarias, artículos,
+                                documentos
+                            </td>
+                            <td>Programas, softwares, apps, videojuegos</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 id="ejemplo">Ejemplos</h3>
+                <p>Haz click en cada botón para ver los ejemplos</p>
+                <div class="ejemplos-general">
+                    <!-- Código de la línea de ejemplos de localización -->
+                    <div class="fila-ejemplos">
+                        <div class="conceptos">L10n</div>
+                        <img
+                            src="Imagenes/giphy.gif"
+                            class="flecha-gif"
+                            alt="flecha hacia la derecha"
+                        />
+                        <div class="grupo-de-botones">
+                            <button
+                                class="ejemplo-L10nTrad"
+                                onclick="togglePannel('l10n', 1, this)"
+                            >
+                                Ejemplo 1
+                            </button>
+                            <button
+                                class="ejemplo-L10nTrad"
+                                onclick="togglePannel('l10n', 2, this)"
+                            >
+                                Ejemplo 2
+                            </button>
+                            <button
+                                class="ejemplo-L10nTrad"
+                                onclick="togglePannel('l10n', 3, this)"
+                            >
+                                Ejemplo 3
+                            </button>
+                            <button
+                                class="ejemplo-L10nTrad"
+                                onclick="togglePannel('l10n', 4, this)"
+                            >
+                                Ejemplo 4
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Recuadro del panel de la fila de localización -->
+                    <div class="recuadro" id="recuadro-l10n">
+                        <img
+                            id="imagen-l10n"
+                            src=""
+                            alt="imagen ejemplo"
+                            class="recuadro-img"
+                        />
+                        <p id="texto-l10n"></p>
+                    </div>
+                    <!-- Código de la línea de ejemplos de traducción -->
+                    <div class="fila-ejemplos">
+                        <div class="conceptos">Trad.</div>
+                        <img
+                            src="Imagenes/giphy.gif"
+                            class="flecha-gif"
+                            alt="flecha hacia la derecha"
+                        />
+                        <div class="grupo-de-botones">
+                            <button
+                                class="ejemplo-L10nTrad"
+                                onclick="togglePannel('trad', 1, this)"
+                            >
+                                Ejemplo 1
+                            </button>
+                            <button
+                                class="ejemplo-L10nTrad"
+                                onclick="togglePannel('trad', 2, this)"
+                            >
+                                Ejemplo 2
+                            </button>
+                            <button
+                                class="ejemplo-L10nTrad"
+                                onclick="togglePannel('trad', 3, this)"
+                            >
+                                Ejemplo 3
+                            </button>
+                            <button
+                                class="ejemplo-L10nTrad"
+                                onclick="togglePannel('trad', 4, this)"
+                            >
+                                Ejemplo 4
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Recuadro del panel de la fila de traducción -->
+                    <div class="recuadro" id="recuadro-trad">
+                        <img
+                            id="imagen-trad"
+                            src=""
+                            alt="imagen ejemplo"
+                            class="recuadro-img"
+                        />
+                        <p id="texto-trad"></p>
+                    </div>
+                </div>
+                <h2>Herramientas utilizadas</h2>
+                <div class="recursos">
+                    <div class="app">
+                        <img
+                            src="Imagenes/Notepad++_Logo.svg.png"
+                            alt="Logo de Notepad++"
+                        />
+                        <span>Notepad++ <br />(HTML)</span>
+                    </div>
+                    <div class="app">
+                        <img src="Imagenes/wave-2.png" alt="Logo de Wave" />
+                        <span>Wave <br />(Accesibilidad)</span>
+                    </div>
+
+                    <div class="app">
+                        <img src="Imagenes/memoq.png" alt="Logo de MemoQ" />
+                        <span>MemoQ <br />(videojuegos)</span>
+                    </div>
+
+                    <div class="app">
+                        <img
+                            src="Imagenes/bluegriffon.png"
+                            alt="Logo de BlueGriffon"
+                        />
+                        <span>BlueGriffon <br />(sitios web)</span>
+                    </div>
+
+                    <div class="app">
+                        <img
+                            src="Imagenes/Visual_Studio_Code_1.35_icon.svg.png"
+                            alt="Logo de Visual Studio Code"
+                        />
+                        <span>Visual Studio Code <br />(portafolio)</span>
+                    </div>
+                </div>
+                <h2>Proceso de aprendizaje</h2>
+                <!--Semana 1: aprender HTML y accesibilidad-->
+                <div class="proceso">
+                    <h2 class="semanas">&#10132; Semana 1</h2>
+                    <img
+                        src="Imagenes/html.jpg"
+                        alt="código de html"
+                        class="imagen-semana"
+                    />
+                    <ol class="puntos-ppales">
+                        <li>HTML</li>
+                        <p>
+                            Trabajo realizado en el aula. Yo tenía mucho interés
+                            por la programación, así que esta actividad ha sido
+                            la excusa perfecta para aprender lenguaje HTML.
+                        </p>
+                        <p>
+                            La herramienta utilizada fue Notepad++ para
+                            modificar archivos de texto y BlueGriffon para
+                            localizar webs ya creadas.
+                        </p>
+                        <p>
+                            Hemos aprendido la estructura básica de las páginas
+                            web, junto con las etiquetas y atributos más
+                            comunes. Y también hemos apredido a hacer las webs
+                            accesibles.
+                        </p>
+                        <p>
+                            Un concepto muy importante fue la distinción entre
+                            rutas absolutas y relativas.
+                        </p>
+                        <li>Metodología</li>
+                        <div class="recursos">
+                            <div class="app">
+                                <img
+                                    src="Imagenes/Notepad++_Logo.svg.png"
+                                    alt="Logo de Notepad++"
+                                />
+                                <span>Notepad++</span>
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/wave-2.png"
+                                    alt="Logo de Wave"
+                                />
+                                <span>Wave</span>
+                            </div>
+                        </div>
+                        <li>Lenguajes</li>
+                        <div class="recursos">
+                            <div class="app">
+                                <img
+                                    src="Imagenes/logohtml.png"
+                                    alt="logo de html"
+                                />
+                                <span>HTML</span>
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/csslogo.png"
+                                    alt="logo de css"
+                                />
+                                <span>CSS</span>
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/JavaScript-Logo.png"
+                                    alt="logo de javascript"
+                                />
+                                <span>JavaScript</span>
+                            </div>
+                        </div>
+                        <li>Elementos</li>
+                        <div class="recursos">
+                            <div class="app">
+                                <img
+                                    src="Imagenes/title-elemento.png"
+                                    alt="etiqueta de título de html"
+                                />
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/button-ejemplo.png"
+                                    alt="etiqueta de botón de html"
+                                />
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/head-elemento.png"
+                                    alt="etiqueta de head de html"
+                                />
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/p-elemento.png"
+                                    alt="etiqueta de párrafos de html"
+                                />
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/h-elemento.png"
+                                    alt="etiqueta de encabezados de html"
+                                />
+                            </div>
+                        </div>
+                        <li>Accesibilidad</li>
+                        <div class="recursos">
+                            <div class="app">
+                                <img
+                                    src="Imagenes/Eo_circle_green_checkmark.svg.png"
+                                    alt="Buena accesibilidad"
+                                />
+                                <span>Discapacidad visual</span>
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/Eo_circle_green_checkmark.svg.png"
+                                    alt="Buena accesibilidad"
+                                />
+                                <span>Discapacidad auditiva</span>
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/Eo_circle_green_checkmark.svg.png"
+                                    alt="Buena accesibilidad"
+                                />
+                                <span>Discapacidad motriz</span>
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/Eo_circle_green_checkmark.svg.png"
+                                    alt="Buena accesibilidad"
+                                />
+                                <span>Discapacidad cognitiva</span>
+                            </div>
+                        </div>
+                        <p>
+                            La web tiene que ser perceptible, operable,
+                            comprensible y robusta. Localizar de la forma más
+                            concisa, clara, con una buena estructura y legible.
+                        </p>
+                        <p>
+                            Elegí la extensión de Google Chrome llamada Wave.
+                            Nos proporciona un cuadro de diálogo donde aparecen
+                            marcados los errores y los avisos.
+                        </p>
+                        <li>Reflexión personal y resultados</li>
+                        <p class="reflexion-semana">
+                            Mucho caos al principio y mucha confusión para crear
+                            código y mejorar la accesibilidad. En clase,
+                            repetíamos lo visto anteriormente y reforzaba mis
+                            conocimientos. Entendí los principio básicos de
+                            localización web y accesibilidad. <br />He
+                            conseguido crear
+                            <a href="#proyectos">mi propia web</a> alojada en mi
+                            dispositivo personal, completamente funcional y
+                            accesible para las personas con discapacidad.
+                            <br />He descubierto que me gustaría profundizar en
+                            localización web y mejorar el ejercicio realizado en
+                            clase.
+                        </p>
+                    </ol>
+                </div>
+
+                <!--Semana 2: aprender a localizar sitios web completos-->
+                <div class="proceso">
+                    <h2 class="titulo">&#10132; Semana 2</h2>
+                    <img
+                        src="Imagenes/sitioweb-cabecera.png"
+                        alt="imagen del sitio web Japan Zone"
+                        class="imagen-semana"
+                    />
+                    <ol class="puntos-ppales">
+                        <li>Sitios web</li>
+                        <p>
+                            Utilizamos una serie de webs. En mi caso, elegí la
+                            localización de la web
+                            <a href="#proyectos">Japan Zone</a>. Aprendimos la
+                            diferencia entre webs completas (todas las imágenes,
+                            hojas de estilo, webs vinculadas, etc.) y solo el
+                            HTML.
+                        </p>
+                        <p>
+                            Aprendimos a identificar dónde se guardan todos los
+                            elementos que componen una web. Muy útil para
+                            localizadores que se especialicen en web.
+                        </p>
+                        <li>Metodología</li>
+                        <div class="recursos">
+                            <div class="app">
+                                <img
+                                    src="Imagenes/bluegriffon.png"
+                                    alt="Logo de BlueGriffon"
+                                />
+                                <span>BlueGriffon</span>
+                            </div>
+                        </div>
+                        <li>Elementos</li>
+                        <img
+                            src="Imagenes/tarea2.png"
+                            alt="código y web traducida"
+                            id="Japanzone"
+                        />
+                        <li>Ubicación de archivos</li>
+                        <img
+                            src="Imagenes/ubicacion.png"
+                            alt="ubicación de archivos"
+                            id="ubicacion"
+                        />
+                        <li>
+                            Tarea 2
+                            <br />
+                            <img
+                                src="Imagenes/EsquemaSitioWeb.png"
+                                alt="Esquema de las instrucciones de la tarea 2"
+                                class="esquema-imagen"
+                                onclick="abrirModal(this.src)"
+                                
+                            />
+                            <div class="aviso-imagen">
+                                <img
+                                    src="Imagenes/Warning.svg.png"
+                                    alt="símbolo de peligro"
+                                />
+                                <span
+                                    >COMPROBAR QUE LOS ELEMENTOS QUE AFECTAN A
+                                    LA ACCESIBILIDAD APARECEN Y ESTÁN BIEN
+                                    TRADUCIDOS</span
+                                >
+                            </div>
+                        </li>
+                        <li>Reflexión personal y resultados</li>
+                        <p class="reflexion-semana">
+                            He adquirido una comprensión amplia de los
+                            principios y técnicas de la localización de páginas
+                            web completas. Esta práctica implica entender una
+                            web como un sistema complejo de elementos
+                            interdependientes. <br />Hemos aprendido a analizar
+                            su macro y la micro estructura y la organización
+                            cliente-servidor de sus archivos. <br />Para poder
+                            traducir los elementos no visibles (metadatos,
+                            textos alternativos), reconocer y gestionar los
+                            elementos de la web ha resultado esencial.
+                        </p>
+                    </ol>
+                </div>
+
+                <!--Semana 3: aprender a localizar videojuegos-->
+                <div class="proceso">
+                    <h2 class="titulo">&#10132; Semana 3</h2>
+                    <img
+                        src="Imagenes/localizaciondevideojuegos.png"
+                        alt="dos personas que usan diferentes lenguas jugando al mismo juego"
+                        class="imagen-semana"
+                    />
+                    <ol class="puntos-ppales">
+                        <li>Videojuegos</li>
+                        <p>
+                            Durante esta semana, tuvimos un taller impartido por
+                            Victoria Nieto García en el que aprendimos las bases
+                            mediante un
+                            <a href="#proyectos">ejercicio con MemoQ</a>.
+                            Aprendimos a que localizar es adaptar una obra a
+                            otro contexto cultural, técnico y funcional. Muy
+                            importante la coherencia y adecuación cultural para
+                            el disfrute de la experiencia completa de juego y se
+                            respeta la intención original del creador. Nos
+                            presentaron las guías de estilo, herramienta
+                            esencial ya que contiene aspectos lingüísticos,
+                            terminológicos y coherencia.
+                        </p>
+                        <li>Metodología</li>
+                        <div class="recursos">
+                            <div class="app">
+                                <img
+                                    src="Imagenes/memoq.png"
+                                    alt="Logo de MemoQ"
+                                />
+                                <span>MemoQ</span>
+                            </div>
+                        </div>
+                        <li>Ejemplos de guías de estilos</li>
+                        <br />
+                        <img
+                            src="Imagenes/Guía de estilo.png"
+                            alt="Ejemplo de guía de estilo"
+                            class="esquema-imagen"
+                            onclick="abrirModal(this.src)"
+                        />
+                        <li>Recursos</li>
+                        <div class="recursos">
+                            <div class="app">
+                                <img
+                                    src="Imagenes/glossary.png"
+                                    alt="Logo de un glosario"
+                                />
+                                <span>Glosarios</span>
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/translation-memory.png"
+                                    alt="Logo de una memoria de traducción"
+                                />
+                                <span>Memoria de Traducción</span>
+                            </div>
+                        </div>
+                        <li>Reflexión personal y resultados</li>
+                        <p class="reflexion-semana">
+                            Esta clase me sirvió para descubrir a lo que me
+                            gustaría dedicarme una vez termine el máster.
+                            Obviamente, requiere de una mayor consciencia de
+                            todo el contexto y la interfaz debido a las guías de
+                            estilo proporcionadas por la empresa. Este hecho
+                            también me ha ayudado a mejorar la coherencia y
+                            calidad de mis decisiones al tener que aplicar
+                            consistentemente la guía de estilo.
+                        </p>
+                    </ol>
+                </div>
+
+                <!--Semana 4: El resto de la asignatura-->
+                <div class="proceso">
+                    <h2 class="titulo">&#10132; Semana 4</h2>
+                    <ol class="puntos-ppales">
+                        <li>Otros proyectos</li>
+                        <div class="recursos">
+                            <div class="app">
+                                <img
+                                    src="Imagenes/Softwareicon.png"
+                                    alt="Logo de un software"
+                                />
+                                <span>Software</span>
+                            </div>
+                            <img
+                                src="Imagenes/giphy.gif"
+                                alt="flecha hacia la derecha"
+                                class="flecha-gif"
+                            />
+                            <div class="app">
+                                <img
+                                    src="Imagenes/smallbasic.png"
+                                    alt="Logo de Small Basic"
+                                />
+                                <span>SmallBasic</span>
+                            </div>
+                            <div class="app">
+                                <img
+                                    src="Imagenes/galeriaimagen.png"
+                                    alt="Logo de la galería de imágenes"
+                                />
+                                <span>Imágenes</span>
+                            </div>
+                            <img
+                                src="Imagenes/giphy.gif"
+                                alt="flecha hacia la derecha"
+                                class="flecha-gif"
+                            />
+                            <div class="app">
+                                <img
+                                    src="Imagenes/GIMP_icon_-_gnome.svg.png"
+                                    alt="Logo de GIMP"
+                                />
+                                <span>GIMP</span>
+                            </div>
+                        </div>
+                    </ol>
+                </div>
+                <!-- MODAL para imagen ampliada -->
+                <div class="modal" id="modal" onclick="cerrarModal()">
+                    <img
+                        id="modal-img"
+                        src=""
+                        alt="Imagen ampliada"
+                        class="modal-img"
+                    />
+                </div>
+                <h2>Mapa conceptual de la asignatura</h2>
+                <br />
+                <div class="esquemas-general">
+                    <img
+                        src="Imagenes/EsquemaS1.png"
+                        alt="Mapa conceptual de localización HTML"
+                        class="esquema-imagen"
+                        onclick="abrirModal(this.src)"
+                    />
+                    <img
+                        src="Imagenes/EsquemaS2.png"
+                        alt="Mapa conceptual de la localización de un sitio web"
+                        class="esquema-imagen"
+                        onclick="abrirModal(this.src)"
+                    />
+                </div>
+                <img
+                    src="Imagenes/EsquemaS3.png"
+                    alt="Mapa conceptual de la localización de videojuegos"
+                    class="esquema-imagen"
+                    onclick="abrirModal(this.src)"
+                />
+                <h2 id="proyectos">Proyectos</h2>
+                <div class="proyectos-general">
+                    <!-- Tarjeta Proyecto 1-->
+                    <div class="tarjeta">
+                        <div class="fondo-tarjeta">
+                            <img
+                                src="Imagenes/preview-leon.png"
+                                alt="tarjeta 1"
+                                class="preview"
+                            />
+                        </div>
+                        <div class="contenido-tarjeta">
+                            <h3 class="título-tarjeta">Tarea 1 - HTML</h3>
+                            <p class="descripción-proyecto">
+                                Web de prueba centrada en Leon S. Kennedy
+                            </p>
+                                <button href="Vínculos/AltarLeon.html" class="boton-tarjeta">Ver proyecto</button>
+                        </div>
+                    </div>
+                    <!-- Tarjeta Proyecto 2 -->
+                    <div class="tarjeta">
+                        <div class="fondo-tarjeta">
+                            <img
+                                src="Imagenes/preview-JapanZone.png"
+                                alt="tarjeta 2"
+                                id="JZ"
+                            />
+                        </div>
+                        <div class="contenido-tarjeta">
+                            <h3 class="título-tarjeta">Tarea 2 - Sitio Web</h3>
+                            <p class="descripción-proyecto">
+                                Localización de un sitio web: JapanZone
+                            </p>
+                                <button href="Vínculos/JPZ-Home.html" class="boton-tarjeta">Ver proyecto</button>
+                        </div>
+                    </div>
+                    <!--Tarjeta Proyecto 3-->
+                    <div class="tarjeta">
+                        <div class="fondo-tarketa">
+                            <img
+                                src="Imagenes/preview-videojuegos.png"
+                                alt="tarjeta 3"
+                                id="VJ"
+                            />
+                        </div>
+                        <div class="contenido-tarjeta">
+                            <h3 class="título-tarjeta">
+                                Tarea 3 - Localización de Videojuegos
+                            </h3>
+                            <p class="descripción-proyecto">
+                                Localización de una muestra del videojuego The
+                                Elder Scrolls Online
+                            </p>
+                                <button href="Vínculos/Practica-videojuegos.html" class="boton-tarjeta">Ver proyecto</button>
+                        </div>
+                    </div>
+                </div>
+                <h2>Recursos extra</h2>
+                <details class="desplegable-principal">
+                    <summary>Lista de referencias</summary>
+                    <ol class="lista-de-referencias">
+                        <li>
+                            <a href="Vínculos/translation-tool.html" target="_blank"
+                                >Web de ejemplo</a
+                            >
+                            <details class="desplegable-secundario">
+                                <summary>Prompt e info</summary>
+                                <p>
+                                    Para hacerme aprender a generar una web, le
+                                    pedí ayuda a un amigo que trabaja como
+                                    programador. Con ayuda de la IA Claude,
+                                    construyó una web de ejemplo que me ayudase
+                                    a aprender a cómo crear una web. El prompt
+                                    fue el siguiente:
+                                </p>
+                                <p>
+                                    "Yo: Hazme una web en html, css y js puro
+                                    para poder preparar un ejercicio de
+                                    traduccion, pon varios elemeentos de por
+                                    ejemplos menos desplegables, cartas que den
+                                    deescripciones, te lo dejo a tu imaginacion,
+                                    lo importante que sea accesible para el
+                                    traductor"
+                                </p>
+                                <p>
+                                    "Claude: Voy a crear una herramienta de
+                                    preparación de ejercicios de traducción con
+                                    diseño editorial elegante y varios widgets
+                                    interactivos.Aquí tienes tu TransLab — una
+                                    herramienta completa con 5 secciones:
+                                    Vocabulario — Fichas con efecto flip (clic
+                                    para voltear). Muestra el original, la
+                                    traducción, un ejemplo en contexto y notas
+                                    de registro. Incluye un panel de
+                                    configuración de dificultad con sliders y
+                                    etiquetas de tipo de texto seleccionables.
+                                    Texto — Un fragmento periodístico real con
+                                    marcador de texto interactivo: selecciona
+                                    cualquier fragmento y pulsa el botón de
+                                    categoría (Modismo, Falso amigo, Término
+                                    clave) para colorearlo. Debajo, acordeones
+                                    desplegables con análisis traductológico
+                                    completo de cada expresión marcada. Trampas
+                                    — Tarjetas con los errores más frecuentes:
+                                    calcos sintácticos, falsos amigos, registro,
+                                    referentes culturales, numerales y
+                                    conectores. Cada una incluye un ejemplo de
+                                    error vs. corrección.Checklist — Lista de
+                                    pasos de preparación con barra de progreso.
+                                    Marca cada tarea conforme la completes.
+                                    Glosario — Tabla de términos con buscador en
+                                    tiempo real. Filtra por cualquier palabra en
+                                    español, inglés o tipo de término. Y siempre
+                                    visible: un temporizador flotante para
+                                    controlar el tiempo del ejercicio."
+                                </p>
+                            </details>
+                        </li>
+
+                        <li>
+                            <a
+                                href="https://developer.mozilla.org/es/docs/Web/HTML/Reference/Global_attributes/id"
+                                target="_blank"
+                                >Atributo Id</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://developer.mozilla.org/es/docs/Web/HTML/Reference/Global_attributes/class"
+                                target="_blank"
+                                >Atributo Class</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://www.w3schools.com/html/default.asp"
+                                target="_blank"
+                                >Manual de HTML</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href=" https://www.w3schools.com/html/html_div.asp"
+                                target="_blank"
+                                >Elemento div</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://www.w3schools.com/css/css_padding.asp"
+                                target="_blank"
+                                >Información sobre padding</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://www.w3schools.com/css/css_margin.asp"
+                                target="_blank"
+                                >Información sobre margins</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://developer.mozilla.org/es/docs/Web/JavaScript/Guide"
+                                target="_blank"
+                                >Manual de JavaScript</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Expressions_and_operators"
+                                target="_blank"
+                                >Expresiones y operaciones con JS</a
+                            >
+                        </li>
+                        <li>
+                            <img
+                                src="Imagenes/prompt-ejemplo.png"
+                                alt="Imagen de fila de ejemplos de traducción y localización"
+                                class="prompt-imagen"
+                            />
+                            <details class="desplegable-secundario">
+                                <summary>Prompt e info</summary>
+                                <p>
+                                    Para la realización de la fila de ejemplos,
+                                    le pedí a la IA Claude que la diseñara para
+                                    saber cómo se aplicaba el CSS y cómo usar
+                                    JavaScript para hacerla interactiva. Una vez
+                                    establecido el prompt, la IA simplemente me
+                                    generó el código. El prompt fue el
+                                    siguiente:
+                                </p>
+                                <p>
+                                    "La fila de trad. tiene que estar debajo de
+                                    la fila de L10n. Detrás de ejemplo 4 de la
+                                    fila de L10n no debe haber flecha. El cuadro
+                                    de Trad. tiene que medir lo mismo que el de
+                                    L10n. Quiero que todos los cuadros sean en
+                                    horizontal para que la frase quepa en una
+                                    sola linea. Quiero que todos los cuadros
+                                    aparezcan hacia arriba y se superpongan a
+                                    todo lo que haya"
+                                </p>
+                            </details>
+                        </li>
+                        <li>
+                            <img
+                                src="Imagenes/gemini-iconos.png"
+                                alt="Iconos de elementos de HTML"
+                                class="prompt-imagen"
+                            />
+                            <details class="desplegable-secundario">
+                                <summary>Prompt e info</summary>
+                                <p>
+                                    Debido a la ausencia de imágenes que fueran
+                                    significativas para crear iconos que
+                                    representaran los elementos de HMLT, le pedí
+                                    a la IA generativa de imágenes de Gemini,
+                                    Nano Banana, que creara estos iconos. El
+                                    prompt es el siguiente:
+                                </p>
+                                <p>
+                                    "Quiero que me generes 5 imágenes por
+                                    separado en el que aparezcan los elementos
+                                    html title, head, p, h, y button como si
+                                    fuera un logo."
+                                </p>
+                            </details>
+                        </li>
+                        <li>
+                            <a
+                                href="https://www.youtube.com/watch?v=yF5xtcLjTMo"
+                                target="_blank"
+                                >Ver vídeo de referencia en YouTube
+                            </a>
+                        </li>
+                    </ol>
+                </details>
+                <hr class="línea" />
+                <h2>Sobre mí</h2>
+                <div class="sobre-mi">
+                    <img
+                        src="Imagenes/mifoto.png"
+                        alt="Foto de perfil"
+                        class="foto"
+                    />
+                    <p class="texto-sobre-mi">
+                        Mi nombre es Nerea Iglesias y actualmente estoy cursando
+                        el Máster Universitario de Traducción y Mediación
+                        Cultural en la Universidad de Salamanca. Graduada en la
+                        promoción 2021/2025 en la carrera de Estudios Ingleses
+                        en la Universidad de salamanca.
+                    </p>
+                    <p class="texto-sobre-mi">
+                        Mi Trabajo de Fin de Máster (TFM) se enmarca en el
+                        ámbito de la localización de videojuegos. He trabajado
+                        como profesora de inglés dando clases de B1 y B2. Espero
+                        poder formarme en localización de videojuegos y poder
+                        dedicarme a ello en un futuro. Buen manejo de las
+                        tecnologías y experiencia con memorias de traducción y
+                        glosarios.
+                    </p>
+                    <p class="texto-sobe-mi">
+                        Autorizo a mis profesores para usar estos datos para
+                        posibles investigaciones futuras.
+                    </p>
+                    <div class="info-de-contacto">
+                        <p><strong>Contacto:</strong></p>
+                        <p>Nerea Iglesias Belloso</p>
+                        <a href="nereaib@usal.es">nereaib@usal.es</a>
+                    </div>
+                </div>
+                <hr class="línea" />
+            </div>
+        </div>
+    </body>
+</html>

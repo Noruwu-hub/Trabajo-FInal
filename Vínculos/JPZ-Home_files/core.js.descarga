@@ -1,0 +1,73 @@
+function timer(v){
+	GMT = v;
+	var week = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+	var gmt = new Date();
+	var now = new Date();
+	var set = now.getTimezoneOffset();
+	gmt.setTime(now.getTime()+(set/60+parseFloat(GMT))*60*60*1000);
+	Mon = gmt.getMonth() + 1;
+	Wee = week[gmt.getDay()];
+	Dat = gmt.getDate();
+	hor = gmt.getHours();   if(hor < 10)hor = "0" + hor;
+	min = gmt.getMinutes(); if(min < 10)min = "0" + min;
+	sec = gmt.getSeconds(); if(sec < 10)sec = "0" + sec;
+	$("#time-in-tokyo").html(hor+":"+min+":"+sec);
+	setTimeout("timer(GMT)",999);
+}
+
+$(document).ready(function() {
+
+  $("#main-menu > ul > li").hover(function() {
+	  if ($( window ).width() > 991) {
+      $(this).addClass("open");
+		}
+  }, function() {
+	  if ($( window ).width() > 991) {
+      $(this).removeClass("open");
+		}
+  });
+
+  $("#main-menu > ul > li a.dropdown-toggle").click(function(event) {
+	  if ($( window ).width() > 991) {
+      var link = $(this).attr('href');
+      if (link) {
+        window.location = link;
+      }
+		}
+  });
+
+	if ( $("#time-in-tokyo").length ) {
+		timer(9);
+	}
+
+  $(".auto-focus").click(function() {
+    $(this).select();
+  });
+
+  if ($("#site-section").length > 0) {
+    var section = $("#site-section").val();
+    $("#section-"+section).addClass("active");
+  } else {
+    $("#shop-menu-home").addClass("active");
+  }
+
+
+
+});
+
+$(window).load(function() {
+
+  var window_width = $( window ).width();
+  if (window_width > 480) {
+    var header_offset = jQuery('#nav-affix').offset().top;
+    $(window).scroll(function(){
+      var scroll_pos = $(document).scrollTop();
+      if (scroll_pos >= header_offset) {
+        $("#nav-affix").addClass("affixed");
+      } else {
+        $("#nav-affix").removeClass("affixed");
+      }
+    });
+  }
+
+});

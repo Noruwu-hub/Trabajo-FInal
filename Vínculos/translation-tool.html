@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TransLab — Preparador de Ejercicios</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2eb;
+    --surface: #fffef9;
+    --surface2: #f0ece0;
+    --ink: #1a1814;
+    --ink2: #4a453c;
+    --ink3: #8a8278;
+    --accent: #c4531a;
+    --accent-light: #fae8dc;
+    --accent2: #1a5c4a;
+    --accent2-light: #ddf0ea;
+    --border: #d8d2c4;
+    --border-light: #e8e3d8;
+    --gold: #c49a1a;
+    --gold-light: #fdf3d0;
+    --blue: #1a3c6e;
+    --blue-light: #dce8f5;
+    --font-serif: 'Lora', Georgia, serif;
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --r: 10px;
+    --r-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--ink);
+    color: #fffef9;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  header .logo {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    letter-spacing: -0.3px;
+  }
+  header .logo span { color: #e8834a; }
+  header nav { display: flex; gap: 4px; }
+  header nav button {
+    background: transparent;
+    border: none;
+    color: rgba(255,254,249,0.7);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  header nav button:hover, header nav button.active {
+    background: rgba(255,255,255,0.12);
+    color: #fffef9;
+  }
+
+  /* ── Layout ── */
+  .page { display: none; padding: 2rem 2rem 4rem; max-width: 1100px; margin: 0 auto; }
+  .page.visible { display: block; }
+
+  h1 { font-family: var(--font-serif); font-size: 28px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  h2 { font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--ink); margin-bottom: 14px; }
+  .subtitle { color: var(--ink3); font-size: 14px; margin-bottom: 2rem; }
+
+  /* ── Cards grid ── */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 2.5rem; }
+
+  .flip-card { height: 200px; perspective: 900px; cursor: pointer; }
+  .flip-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute; inset: 0;
+    border-radius: var(--r);
+    padding: 1.25rem;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--border);
+  }
+  .flip-front {
+    background: var(--surface);
+  }
+  .flip-back {
+    background: var(--ink);
+    color: #fffef9;
+    transform: rotateY(180deg);
+  }
+  .flip-front .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    align-self: flex-start;
+    margin-bottom: 10px;
+  }
+  .tag-idiom { background: var(--gold-light); color: #7a5a00; }
+  .tag-term { background: var(--blue-light); color: #0d2b55; }
+  .tag-phrase { background: var(--accent-light); color: #7a2c08; }
+  .tag-cultural { background: var(--accent2-light); color: #0d3d2e; }
+  .flip-front .word { font-family: var(--font-serif); font-size: 22px; font-weight: 600; flex: 1; display: flex; align-items: center; }
+  .flip-front .hint { font-size: 12px; color: var(--ink3); }
+  .flip-back .translation { font-family: var(--font-serif); font-size: 18px; margin-bottom: 8px; }
+  .flip-back .example { font-size: 12px; color: rgba(255,254,249,0.65); font-style: italic; line-height: 1.5; }
+  .flip-back .context { font-size: 11px; color: rgba(255,254,249,0.45); margin-top: auto; }
+  .flip-hint { font-size: 11px; color: var(--ink3); display: flex; align-items: center; gap: 4px; }
+  .flip-hint svg { width: 12px; height: 12px; }
+
+  /* ── Accordion ── */
+  .accordion { margin-bottom: 2.5rem; }
+  .acc-item { border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 8px; background: var(--surface); overflow: hidden; }
+  .acc-header {
+    width: 100%; background: none; border: none; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px; font-family: var(--font-sans); font-size: 14px;
+    font-weight: 500; color: var(--ink); text-align: left;
+    transition: background 0.15s;
+  }
+  .acc-header:hover { background: var(--surface2); }
+  .acc-header .acc-icon {
+    width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: transform 0.3s, background 0.2s;
+  }
+  .acc-item.open .acc-icon { transform: rotate(45deg); background: var(--accent); border-color: var(--accent); }
+  .acc-icon svg { width: 10px; height: 10px; }
+  .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1); }
+  .acc-item.open .acc-body { max-height: 600px; }
+  .acc-content { padding: 0 18px 16px; border-top: 1px solid var(--border-light); padding-top: 14px; }
+  .acc-content p { font-size: 14px; color: var(--ink2); line-height: 1.7; }
+  .acc-content .examples { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .example-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .lang-box { background: var(--surface2); border-radius: var(--r-sm); padding: 10px 14px; font-size: 13px; }
+  .lang-box .lang-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--ink3); margin-bottom: 4px; }
+  .lang-box .lang-text { color: var(--ink); line-height: 1.5; }
+  .lang-box.es { border-left: 3px solid var(--accent); }
+  .lang-box.en { border-left: 3px solid var(--blue); }
+
+  /* ── Difficulty slider ── */
+  .difficulty-section { background: var(--surface); border-radius: var(--r); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2.5rem; }
+  .slider-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .slider-row label { font-size: 13px; color: var(--ink2); min-width: 80px; }
+  .slider-row input[type=range] { flex: 1; accent-color: var(--accent); }
+  .slider-val { font-size: 13px; font-weight: 600; color: var(--accent); min-width: 80px; }
+  .diff-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .diff-tag {
+    padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    border: 1px solid var(--border); background: var(--surface2); cursor: pointer;
+    transition: all 0.2s; color: var(--ink2);
+  }
+  .diff-tag.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+  /* ── Text highlighter ── */
+  .highlighter-section { background: var(--surface); border-radius: var(--r); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2.5rem; }
+  .text-display {
+    background: var(--bg);
+    border-radius: var(--r-sm);
+    padding: 1.25rem;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.9;
+    color: var(--ink);
+    margin: 1rem 0;
+    border: 1px solid var(--border-light);
+    user-select: text;
+  }
+  .hl-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .hl-btn {
+    padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    border: 1.5px solid var(--border); background: var(--surface2); cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+  }
+  .hl-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .hl-btn.active-idiom { background: var(--gold-light); border-color: var(--gold); color: #5a3d00; }
+  .hl-btn.active-false { background: #fde8e8; border-color: #e87272; color: #7a1010; }
+  .hl-btn.active-key { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+  mark.idiom { background: #fff0b3; border-radius: 2px; padding: 0 2px; }
+  mark.false-friend { background: #ffd4d4; border-radius: 2px; padding: 0 2px; }
+  mark.key { background: #d4e8ff; border-radius: 2px; padding: 0 2px; }
+  .hl-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+  .hl-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink2); }
+  .hl-legend-swatch { width: 16px; height: 10px; border-radius: 2px; }
+
+  /* ── Pitfalls cards ── */
+  .pitfall-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-bottom: 2.5rem; }
+  .pitfall-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 1.2rem; }
+  .pitfall-card .pf-icon { font-size: 20px; margin-bottom: 8px; }
+  .pitfall-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .pitfall-card p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+  .pitfall-card .pf-ex { margin-top: 10px; background: var(--surface2); border-radius: var(--r-sm); padding: 8px 12px; }
+  .pitfall-card .pf-ex .wrong { font-size: 12px; color: #c0392b; text-decoration: line-through; margin-bottom: 3px; }
+  .pitfall-card .pf-ex .right { font-size: 12px; color: var(--accent2); font-weight: 500; }
+
+  /* ── Checklist ── */
+  .checklist-section { background: var(--surface); border-radius: var(--r); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2.5rem; }
+  .checklist { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: var(--r-sm); background: var(--surface2); cursor: pointer; transition: background 0.15s; }
+  .check-item:hover { background: var(--border-light); }
+  .check-item.done { opacity: 0.55; }
+  .check-item.done .check-text { text-decoration: line-through; color: var(--ink3); }
+  .check-box { width: 18px; height: 18px; border-radius: 4px; border: 2px solid var(--border); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .check-item.done .check-box { background: var(--accent2); border-color: var(--accent2); }
+  .check-box svg { width: 10px; height: 10px; stroke: white; stroke-width: 2.5; fill: none; display: none; }
+  .check-item.done .check-box svg { display: block; }
+  .check-text { font-size: 13px; color: var(--ink); }
+  .check-sub { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+  .progress-bar-wrap { height: 4px; background: var(--border-light); border-radius: 2px; margin-bottom: 16px; }
+  .progress-bar { height: 4px; background: var(--accent2); border-radius: 2px; transition: width 0.4s; }
+
+  /* ── Glossary search ── */
+  .glossary-section { margin-bottom: 2.5rem; }
+  .search-box { position: relative; margin-bottom: 1rem; }
+  .search-box input {
+    width: 100%; padding: 11px 16px 11px 42px;
+    border: 1.5px solid var(--border); border-radius: var(--r);
+    background: var(--surface); font-family: var(--font-sans); font-size: 14px;
+    color: var(--ink); outline: none; transition: border 0.2s;
+  }
+  .search-box input:focus { border-color: var(--accent); }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink3); }
+  .glossary-table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: var(--r); overflow: hidden; border: 1px solid var(--border); }
+  .glossary-table th { background: var(--ink); color: #fffef9; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; padding: 10px 16px; text-align: left; }
+  .glossary-table td { padding: 10px 16px; font-size: 13px; border-bottom: 1px solid var(--border-light); vertical-align: top; }
+  .glossary-table tr:last-child td { border-bottom: none; }
+  .glossary-table tr:hover td { background: var(--surface2); }
+  .g-type { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 3px; }
+  .g-note { font-size: 11px; color: var(--ink3); margin-top: 3px; }
+  .hidden-row { display: none; }
+
+  /* ── Timer ── */
+  .timer-bar { position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: #fffef9; border-radius: 40px; padding: 10px 20px; display: flex; align-items: center; gap: 12px; font-size: 13px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 200; }
+  .timer-display { font-family: var(--font-serif); font-size: 18px; font-weight: 600; min-width: 48px; text-align: center; }
+  .timer-btn { background: rgba(255,255,255,0.12); border: none; color: #fffef9; border-radius: 20px; padding: 4px 12px; font-size: 12px; cursor: pointer; transition: background 0.15s; }
+  .timer-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .example-pair { grid-template-columns: 1fr; }
+    .cards-grid { grid-template-columns: 1fr; }
+    header nav button span { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Trans<span>Lab</span></div>
+  <nav>
+    <button class="active" onclick="showPage('vocab', this)"><span>Vocabulario</span></button>
+    <button onclick="showPage('text', this)"><span>Texto</span></button>
+    <button onclick="showPage('pitfalls', this)"><span>Trampas</span></button>
+    <button onclick="showPage('prep', this)"><span>Checklist</span></button>
+    <button onclick="showPage('glossary', this)"><span>Glosario</span></button>
+  </nav>
+</header>
+
+<!-- ────────── PAGE 1: VOCAB ────────── -->
+<div id="page-vocab" class="page visible">
+  <h1>Fichas de vocabulario</h1>
+  <p class="subtitle">Haz clic en cada carta para ver la traducción y ejemplo de uso</p>
+
+  <div class="cards-grid" id="vocabGrid">
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag tag-idiom">Modismo</span>
+          <div class="word">Matar dos pájaros de un tiro</div>
+          <div class="flip-hint">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v5l3 2"/><circle cx="8" cy="8" r="6"/></svg>
+            Clic para voltear
+          </div>
+        </div>
+        <div class="flip-back">
+          <div class="translation">To kill two birds with one stone</div>
+          <div class="example">"We can stop for petrol and pick up the shopping — that way we'll kill two birds with one stone."</div>
+          <div class="context">Registro: coloquial · Equivalente funcional</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag tag-term">Término técnico</span>
+          <div class="word">Cotización en bolsa</div>
+          <div class="flip-hint">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v5l3 2"/><circle cx="8" cy="8" r="6"/></svg>
+            Clic para voltear
+          </div>
+        </div>
+        <div class="flip-back">
+          <div class="translation">Stock exchange listing / Share price</div>
+          <div class="example">"The company's stock exchange listing reached an all-time high this quarter."</div>
+          <div class="context">Contexto: finanzas · Cuidado con "price" vs "listing"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag tag-phrase">Colocación</span>
+          <div class="word">Cobrar una multa</div>
+          <div class="flip-hint">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v5l3 2"/><circle cx="8" cy="8" r="6"/></svg>
+            Clic para voltear
+          </div>
+        </div>
+        <div class="flip-back">
+          <div class="translation">To impose / levy a fine</div>
+          <div class="example">"The council imposed a heavy fine on the contractor for the delay."</div>
+          <div class="context">⚠ No: "to charge a fine" — falso amigo de colocación</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag tag-cultural">Cultural</span>
+          <div class="word">Ayuntamiento</div>
+          <div class="flip-hint">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v5l3 2"/><circle cx="8" cy="8" r="6"/></svg>
+            Clic para voltear
+          </div>
+        </div>
+        <div class="flip-back">
+          <div class="translation">Town/City Council · Local Council</div>
+          <div class="example">"The city council has approved the new urban development plan."</div>
+          <div class="context">UK: "council" · US: "city hall" · Adaptar al público meta</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag tag-idiom">Modismo</span>
+          <div class="word">No hay mal que por bien no venga</div>
+          <div class="flip-hint">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v5l3 2"/><circle cx="8" cy="8" r="6"/></svg>
+            Clic para voltear
+          </div>
+        </div>
+        <div class="flip-back">
+          <div class="translation">Every cloud has a silver lining</div>
+          <div class="example">"She lost her old job, but found a better one — every cloud has a silver lining."</div>
+          <div class="context">Proverbio · Equivalente idiomático en cultura anglófona</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag tag-term">Término jurídico</span>
+          <div class="word">Fianza</div>
+          <div class="flip-hint">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v5l3 2"/><circle cx="8" cy="8" r="6"/></svg>
+            Clic para voltear
+          </div>
+        </div>
+        <div class="flip-back">
+          <div class="translation">Bail (penal) · Security deposit (civil) · Bond (financiero)</div>
+          <div class="example">"The judge set bail at €50,000."</div>
+          <div class="context">⚠ Polisemia — el contexto determina la traducción correcta</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Difficulty section -->
+  <div class="difficulty-section">
+    <h2>Dificultad del ejercicio</h2>
+    <div class="slider-row">
+      <label>Complejidad</label>
+      <input type="range" min="1" max="5" value="3" id="complexSlider" oninput="updateSlider('complex', this.value)">
+      <span class="slider-val" id="complexVal">Intermedio</span>
+    </div>
+    <div class="slider-row">
+      <label>Tiempo (min)</label>
+      <input type="range" min="5" max="60" value="20" step="5" id="timeSlider" oninput="updateSlider('time', this.value)">
+      <span class="slider-val" id="timeVal">20 min</span>
+    </div>
+    <div style="font-size: 13px; color: var(--ink3); margin-top: 4px; margin-bottom: 14px;">Tipo de texto</div>
+    <div class="diff-tags" id="textTypeTags">
+      <span class="diff-tag active" onclick="toggleTag(this)">Periodístico</span>
+      <span class="diff-tag" onclick="toggleTag(this)">Jurídico</span>
+      <span class="diff-tag" onclick="toggleTag(this)">Literario</span>
+      <span class="diff-tag" onclick="toggleTag(this)">Técnico</span>
+      <span class="diff-tag" onclick="toggleTag(this)">Publicitario</span>
+      <span class="diff-tag" onclick="toggleTag(this)">Científico</span>
+      <span class="diff-tag" onclick="toggleTag(this)">Económico</span>
+    </div>
+  </div>
+</div>
+
+<!-- ────────── PAGE 2: TEXT ────────── -->
+<div id="page-text" class="page">
+  <h1>Análisis de texto</h1>
+  <p class="subtitle">Selecciona texto y márcalo con categorías antes de traducir</p>
+
+  <div class="highlighter-section">
+    <div class="hl-controls">
+      <button class="hl-btn active-idiom" onclick="setMode('idiom', this)"><span class="hl-dot" style="background:#f0c040"></span>Modismo / Fraseología</button>
+      <button class="hl-btn" onclick="setMode('false', this)"><span class="hl-dot" style="background:#e87272"></span>Falso amigo</button>
+      <button class="hl-btn" onclick="setMode('key', this)"><span class="hl-dot" style="background:#72a8e8"></span>Término clave</button>
+      <button class="hl-btn" onclick="setMode(null, this)" style="margin-left:auto">Borrar marcado</button>
+    </div>
+
+    <div class="text-display" id="textDisplay" onmouseup="handleSelection()">
+      El <mark class="key">Gobierno</mark> anunció ayer un paquete de medidas para <mark class="idiom">poner palos en las ruedas</mark> a la especulación inmobiliaria. La ministra de Vivienda, que lleva la voz cantante en esta iniciativa, subrayó que las <mark class="false-friend">actuales</mark> políticas resultan insuficientes. Según los expertos, muchos ayuntamientos se han lavado las manos ante el problema, dejando a los ciudadanos sin <mark class="key">amparo legal</mark>. El texto del proyecto de ley, que consta de cuarenta artículos, <mark class="idiom">ve la luz</mark> en un momento de gran crispación social.
+    </div>
+
+    <div class="hl-legend">
+      <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#fff0b3"></div>Modismo</div>
+      <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#ffd4d4"></div>Falso amigo</div>
+      <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#d4e8ff"></div>Término clave</div>
+    </div>
+  </div>
+
+  <!-- Accordion with translation notes -->
+  <h2>Notas de traducción por fragmento</h2>
+  <div class="accordion">
+
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this.parentElement)">
+        <span>🔸 «Poner palos en las ruedas» — Análisis traductológico</span>
+        <div class="acc-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="acc-content">
+          <p>Modismo con equivalente funcional en inglés. El objetivo es mantener la carga expresiva y el registro (ligeramente coloquial en un texto periodístico formal).</p>
+          <div class="examples">
+            <div class="example-pair">
+              <div class="lang-box es"><div class="lang-label">🇪🇸 Original</div><div class="lang-text">poner palos en las ruedas a la especulación</div></div>
+              <div class="lang-box en"><div class="lang-label">🇬🇧 Propuesta</div><div class="lang-text">to put a spoke in the wheel of speculation</div></div>
+            </div>
+            <div class="example-pair">
+              <div class="lang-box es"><div class="lang-label">🇪🇸 Alternativa</div><div class="lang-text">(mismo sentido, registro neutro)</div></div>
+              <div class="lang-box en"><div class="lang-label">🇬🇧 Alternativa</div><div class="lang-text">to curb / to put a brake on speculation</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this.parentElement)">
+        <span>⚠️ «Actuales» — Falso amigo con «actual»</span>
+        <div class="acc-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="acc-content">
+          <p>«Actual/actuales» en español significa <strong>current/present</strong>, nunca <em>actual</em> (que significa «real, verdadero»). Error muy frecuente en traductores noveles.</p>
+          <div class="examples">
+            <div class="example-pair">
+              <div class="lang-box es"><div class="lang-label">🇪🇸 Original</div><div class="lang-text">las actuales políticas</div></div>
+              <div class="lang-box en"><div class="lang-label">✅ Correcto</div><div class="lang-text">current / existing / present policies</div></div>
+            </div>
+            <div class="example-pair">
+              <div class="lang-box es"><div class="lang-label">❌ Error frecuente</div><div class="lang-text">—</div></div>
+              <div class="lang-box en"><div class="lang-label">❌ Incorrecto</div><div class="lang-text">actual policies (significa "las políticas reales")</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this.parentElement)">
+        <span>🔸 «Ver la luz» — Metáfora lexicalizada</span>
+        <div class="acc-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="acc-content">
+          <p>«Ver la luz» aplicado a una publicación o texto legal es una metáfora lexicalizada. En inglés existe un equivalente natural que no suena forzado.</p>
+          <div class="examples">
+            <div class="example-pair">
+              <div class="lang-box es"><div class="lang-label">🇪🇸 Original</div><div class="lang-text">el texto ve la luz en un momento de...</div></div>
+              <div class="lang-box en"><div class="lang-label">🇬🇧 Propuesta</div><div class="lang-text">the bill sees the light of day / comes to light at a time of...</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <button class="acc-header" onclick="toggleAcc(this.parentElement)">
+        <span>🏛️ «Amparo legal» — Término jurídico</span>
+        <div class="acc-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="acc-content">
+          <p>Término con matices jurídicos propios del derecho español. No tiene un equivalente exacto en el sistema anglosajón (common law). Se recomienda una traducción funcional.</p>
+          <div class="examples">
+            <div class="example-pair">
+              <div class="lang-box es"><div class="lang-label">🇪🇸 Original</div><div class="lang-text">sin amparo legal</div></div>
+              <div class="lang-box en"><div class="lang-label">🇬🇧 Opciones</div><div class="lang-text">without legal protection / without recourse to law / unprotected by law</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ────────── PAGE 3: PITFALLS ────────── -->
+<div id="page-pitfalls" class="page">
+  <h1>Trampas frecuentes</h1>
+  <p class="subtitle">Errores habituales a evitar en este tipo de texto</p>
+
+  <div class="pitfall-list">
+
+    <div class="pitfall-card">
+      <div class="pf-icon">⚡</div>
+      <h3>Calco sintáctico</h3>
+      <p>Trasladar la estructura de la frase española al inglés produce construcciones antinatural es. El inglés prefiere estructuras más cortas y activas.</p>
+      <div class="pf-ex">
+        <div class="wrong">The measures that were announced by the Government yesterday are...</div>
+        <div class="right">The Government yesterday announced measures that...</div>
+      </div>
+    </div>
+
+    <div class="pitfall-card">
+      <div class="pf-icon">🪤</div>
+      <h3>Falsos amigos clásicos</h3>
+      <p>Palabras de apariencia similar con significados distintos. Especialmente peligrosos en textos jurídicos y económicos.</p>
+      <div class="pf-ex">
+        <div class="wrong">actual → actual / embarazada → embarrassed</div>
+        <div class="right">actual → current · embarazada → pregnant</div>
+      </div>
+    </div>
+
+    <div class="pitfall-card">
+      <div class="pf-icon">📐</div>
+      <h3>Registro inconsistente</h3>
+      <p>Mezclar términos coloquiales con formales rompe la coherencia del texto meta. Definir el registro antes de traducir.</p>
+      <div class="pf-ex">
+        <div class="wrong">"The Government has rolled out a bunch of measures..."</div>
+        <div class="right">"The Government has introduced a package of measures..."</div>
+      </div>
+    </div>
+
+    <div class="pitfall-card">
+      <div class="pf-icon">🗺️</div>
+      <h3>Referentes culturales</h3>
+      <p>Instituciones, cargos o festividades específicos de España. Decidir entre préstamo, traducción funcional o nota del traductor.</p>
+      <div class="pf-ex">
+        <div class="wrong">The Consejería de Fomento announced...</div>
+        <div class="right">The Regional Ministry of Development announced...</div>
+      </div>
+    </div>
+
+    <div class="pitfall-card">
+      <div class="pf-icon">📏</div>
+      <h3>Numerales y formatos</h3>
+      <p>Fechas, cantidades y porcentajes tienen formatos distintos en español e inglés (UK vs US). No olvidar adaptar unidades si procede.</p>
+      <div class="pf-ex">
+        <div class="wrong">1.500.000 € el 3/4/2025</div>
+        <div class="right">€1,500,000 on 3 April 2025 (UK) · April 3, 2025 (US)</div>
+      </div>
+    </div>
+
+    <div class="pitfall-card">
+      <div class="pf-icon">🔗</div>
+      <h3>Conectores discursivos</h3>
+      <p>«Sin embargo», «no obstante», «asimismo» no son siempre intercambiables con "however", "nonetheless", "likewise". El matiz importa.</p>
+      <div class="pf-ex">
+        <div class="wrong">Asimismo → However (cambio de matiz)</div>
+        <div class="right">Asimismo → Moreover / Furthermore / In addition</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ────────── PAGE 4: CHECKLIST ────────── -->
+<div id="page-prep" class="page">
+  <h1>Checklist de preparación</h1>
+  <p class="subtitle">Sigue estos pasos antes de comenzar la traducción final</p>
+
+  <div class="checklist-section">
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    <div style="font-size:12px; color:var(--ink3); margin-bottom:14px;" id="progressText">0 de 10 completados</div>
+
+    <div class="checklist" id="checklist">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Leer el texto completo sin traducir</div><div class="check-sub">Comprensión global antes de analizar fragmentos</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Identificar tipología textual y función comunicativa</div><div class="check-sub">Periodístico, jurídico, literario, técnico…</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Determinar el público meta (encargo real o simulado)</div><div class="check-sub">Adaptar registro, cultura y convenciones tipográficas</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Marcar términos desconocidos y buscarlos</div><div class="check-sub">No asumir ni dejar lagunas sin resolver</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Identificar modismos y fraseología</div><div class="check-sub">Buscar equivalentes funcionales, no traducción literal</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Listar posibles falsos amigos</div><div class="check-sub">Verificar en diccionario bilingüe contrastivo</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Preparar glosario de términos especializados</div><div class="check-sub">Mínimo 5 entradas por texto técnico o jurídico</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Revisar referentes culturales y adaptaciones</div><div class="check-sub">Instituciones, topónimos, cargos, festividades</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Revisar la traducción en voz alta</div><div class="check-sub">Detectar calcos y construcciones no naturales</div></div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
+        <div><div class="check-text">Comprobar formato: fechas, cifras, puntuación</div><div class="check-sub">Convenciones de la lengua meta (UK/US si aplica)</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ────────── PAGE 5: GLOSSARY ────────── -->
+<div id="page-glossary" class="page">
+  <h1>Glosario de trabajo</h1>
+  <p class="subtitle">Busca términos por palabra en español, inglés o categoría</p>
+
+  <div class="glossary-section">
+    <div class="search-box">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>
+      <input type="text" id="glossarySearch" placeholder="Buscar término…" oninput="filterGlossary(this.value)">
+    </div>
+    <table class="glossary-table">
+      <thead>
+        <tr><th>Español</th><th>Inglés</th><th>Tipo</th><th>Nota</th></tr>
+      </thead>
+      <tbody id="glossaryBody">
+        <tr data-terms="gobierno government"><td>Gobierno</td><td>Government</td><td><span class="g-type tag-term">Político</span></td><td><div class="g-note">Mayúscula cuando se refiere a un gobierno concreto</div></td></tr>
+        <tr data-terms="amparo legal protection"><td>Amparo legal</td><td>Legal protection / Recourse</td><td><span class="g-type tag-cultural">Cultural</span></td><td><div class="g-note">Sin equivalente exacto en common law</div></td></tr>
+        <tr data-terms="ayuntamiento council hall"><td>Ayuntamiento</td><td>Town Council / City Hall</td><td><span class="g-type tag-cultural">Cultural</span></td><td><div class="g-note">UK: council · US: city hall</div></td></tr>
+        <tr data-terms="fianza bail bond deposit"><td>Fianza</td><td>Bail / Security deposit / Bond</td><td><span class="g-type tag-term">Jurídico</span></td><td><div class="g-note">Contexto determina la opción correcta</div></td></tr>
+        <tr data-terms="multa fine penalty"><td>Multa</td><td>Fine / Penalty</td><td><span class="g-type tag-term">Jurídico</span></td><td><div class="g-note">To impose/levy a fine — no "charge"</div></td></tr>
+        <tr data-terms="crispacion tension unrest"><td>Crispación</td><td>Social tension / Unrest</td><td><span class="g-type tag-phrase">Colocación</span></td><td><div class="g-note">No traducir como "irritation"</div></td></tr>
+        <tr data-terms="actual current present"><td>Actual / Actuales</td><td>Current / Present / Existing</td><td><span class="g-type" style="background:#fde8e8;color:#7a1010;">Falso amigo</span></td><td><div class="g-note">≠ "actual" en inglés (= real)</div></td></tr>
+        <tr data-terms="proyecto ley bill draft"><td>Proyecto de ley</td><td>Bill / Draft law</td><td><span class="g-type tag-term">Jurídico</span></td><td><div class="g-note">"Bill" antes de aprobarse, "Act" después</div></td></tr>
+        <tr data-terms="cotizacion bolsa stock listing share price"><td>Cotización en bolsa</td><td>Share price / Stock listing</td><td><span class="g-type tag-term">Económico</span></td><td><div class="g-note">Depende del contexto: precio vs. cotización</div></td></tr>
+        <tr data-terms="llevar voz cantante spearhead lead"><td>Llevar la voz cantante</td><td>To spearhead / To take the lead</td><td><span class="g-type tag-idiom">Modismo</span></td><td><div class="g-note">Equivalente funcional, no literal</div></td></tr>
+        <tr data-terms="lavarse manos wash hands responsibility"><td>Lavarse las manos</td><td>To wash one's hands of sth</td><td><span class="g-type tag-idiom">Modismo</span></td><td><div class="g-note">Equivalente idiomático directo</div></td></tr>
+        <tr data-terms="ver la luz see light published"><td>Ver la luz</td><td>To see the light of day / To be published</td><td><span class="g-type tag-idiom">Modismo</span></td><td><div class="g-note">Metáfora lexicalizada; usar equivalente idiomático</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Timer -->
+<div class="timer-bar" id="timerBar">
+  <span style="font-size:12px; color:rgba(255,254,249,0.6)">Temporizador</span>
+  <span class="timer-display" id="timerDisplay">00:00</span>
+  <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">Iniciar</button>
+  <button class="timer-btn" onclick="resetTimer()">↺</button>
+</div>
+
+<script>
+// ── Nav ──
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('visible'));
+  document.getElementById('page-' + id).classList.add('visible');
+  document.querySelectorAll('header nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── Accordion ──
+function toggleAcc(item) {
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.acc-item.open').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── Flip cards ──
+// handled via onclick in HTML
+
+// ── Slider ──
+const complexLabels = ['', 'Básico', 'Elemental', 'Intermedio', 'Avanzado', 'Experto'];
+function updateSlider(type, val) {
+  if (type === 'complex') document.getElementById('complexVal').textContent = complexLabels[val];
+  if (type === 'time') document.getElementById('timeVal').textContent = val + ' min';
+}
+
+function toggleTag(el) {
+  el.classList.toggle('active');
+}
+
+// ── Highlighter ──
+let hlMode = 'idiom';
+function setMode(mode, btn) {
+  hlMode = mode;
+  document.querySelectorAll('.hl-btn').forEach(b => b.className = 'hl-btn');
+  if (mode === 'idiom') btn.className = 'hl-btn active-idiom';
+  else if (mode === 'false') btn.className = 'hl-btn active-false';
+  else if (mode === 'key') btn.className = 'hl-btn active-key';
+}
+
+function handleSelection() {
+  if (!hlMode) return;
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+  const range = sel.getRangeAt(0);
+  const container = document.getElementById('textDisplay');
+  if (!container.contains(range.commonAncestorContainer)) return;
+  const mark = document.createElement('mark');
+  mark.className = hlMode === 'false' ? 'false-friend' : hlMode;
+  try { range.surroundContents(mark); sel.removeAllRanges(); } catch(e) {}
+}
+
+// ── Checklist ──
+function toggleCheck(item) {
+  item.classList.toggle('done');
+  updateProgress();
+}
+function updateProgress() {
+  const items = document.querySelectorAll('.check-item');
+  const done = document.querySelectorAll('.check-item.done').length;
+  const pct = Math.round(done / items.length * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = done + ' de ' + items.length + ' completados';
+}
+
+// ── Glossary search ──
+function filterGlossary(q) {
+  const rows = document.querySelectorAll('#glossaryBody tr');
+  const lq = q.toLowerCase();
+  rows.forEach(r => {
+    const terms = (r.dataset.terms || '') + ' ' + r.textContent.toLowerCase();
+    r.classList.toggle('hidden-row', lq.length > 0 && !terms.includes(lq));
+  });
+}
+
+// ── Timer ──
+let timerRunning = false, timerSeconds = 0, timerInterval = null;
+function toggleTimer() {
+  timerRunning = !timerRunning;
+  document.getElementById('timerBtn').textContent = timerRunning ? 'Pausar' : 'Continuar';
+  if (timerRunning) {
+    timerInterval = setInterval(() => {
+      timerSeconds++;
+      const m = String(Math.floor(timerSeconds/60)).padStart(2,'0');
+      const s = String(timerSeconds%60).padStart(2,'0');
+      document.getElementById('timerDisplay').textContent = m+':'+s;
+    }, 1000);
+  } else {
+    clearInterval(timerInterval);
+  }
+}
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false; timerSeconds = 0;
+  document.getElementById('timerDisplay').textContent = '00:00';
+  document.getElementById('timerBtn').textContent = 'Iniciar';
+}
+</script>
+</body>
+</html>

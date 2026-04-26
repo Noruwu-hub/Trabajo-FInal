@@ -1,0 +1,577 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f9a8d4;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      font-family: sans-serif;
+    }
+
+    .caja {
+      background-color: white;
+      width: 100%;
+      max-width: 1200px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .encabezado {
+      background-image: url(Imagenes/pngtree-starry-blue-universe-space-galaxy-simple-banner-skyuniversespacegalaxybluestaredgelow-lightsimplebanner-image_57452.jpg);
+      padding: 36px 28px;
+    }
+
+    .encabezado h1 {
+      color: white;
+      font-size: 60px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 2px;
+      font-family: comic-sans, cursive, sans-serif;
+    }
+
+    .contenido {
+      padding: 28px 32px;
+    }
+
+    .contenido h2 {
+      font-size: 40px;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+      text-decoration: underline;
+      font-family: Georgia, 'Times New Roman', Times, serif
+    }
+
+    .contenido p {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-family:'Times New Roman', Times, serif;
+      font-size: 25px;
+    }
+
+    .cajas-general {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 12px;
+      margin-bottom: 24px;
+      color: white;
+      width: fit-content;
+      height: fit-content;
+    }
+
+    .cajas-general p {
+      flex: 1;
+      text-align: center;
+      color: white;
+      background-color: #7c3aed;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 0;
+    }
+
+    .flecha-gif {
+      width: 100px;
+      height: 100px;
+      flex-shrink: 0;
+    }
+
+    .localizacion-imagen{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 12px;
+      margin-bottom: 24px;
+      width: 420px;
+      height: 320px;
+    }
+
+    .no {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;      
+    }
+
+    .texto-localizacion {
+      display: flex;
+      align-items: flex-start; 
+      gap: 20px;        
+    }
+
+    .texto-cuadro {
+      border: black solid 2px;
+      padding: 5px;
+    }
+
+    h3 {
+      font-size: 30px;
+      font-style: italic;
+      font-family: Georgia, 'Times New Roman', Times, serif
+    }
+
+    table {
+    width: 100%;
+    border: 1px solid #a78bfa;
+    font-size: 15px;
+    
+  }
+
+  thead th {
+  background: #7c3aed;
+  color: #EEEDFE;
+  font-weight: 500;
+  padding: 16px 24px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 30px;
+}
+
+thead th:first-child,
+tbody td:first-child {
+  border-right: 1px solid #a78bfa; 
+}
+
+tbody td {
+  padding: 14px 24px;
+  border-bottom: none;
+  font-size: 25px;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif
+  }
+
+  tbody tr:last-child td:first-child { border-radius: 0 0 0 12px; }
+  tbody tr:last-child td:last-child  { border-radius: 0 0 12px 0; }
+
+  tbody tr:hover td {
+    background: #d8d4f8;
+  }
+
+  #ejemplo {
+    margin-top: 10px;
+    font-size: 30px;
+  }
+
+  .ejemplos-general {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;  
+    position: relative;
+  }
+
+  .fila-ejemplos {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .conceptos {
+    border: 2px solid #7c3aed;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 500;
+    color: #7c3aed;
+    white-space: nowrap;
+    min-width: 80px;
+  }
+
+  .grupo-de-botones {
+    display: flex;
+    gap: 10px;
+  }
+
+  .ejemplo-L10nTrad {
+    background-color: #EEEDFE;
+    color: #7a12e8;
+    border: 2px solid #7c3aed;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .ejemplo-L10nTrad:hover {
+    background: #b3aef0
+  }
+
+  .ejemplo-L10nTrad:active {
+    background: #742feb;
+    color: white;
+  }
+
+  .recuadro {
+    display: none;
+    border: 5px solid #742bf4;
+    border-radius: 14px;
+    padding: 20px 25px;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .recuadro.visible {
+    display: flex;
+  }
+
+  .recuadro-img {
+    width: 180px;
+    border-radius: 14px;
+    flex-shrink: 0;
+  }
+
+  .recursos {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 200px;
+  }
+
+  .app img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .app:hover img {
+    animation: temblar 0.5s infinite;
+  }
+
+  .app span {
+    font-size: 20px;
+    text-align: center;
+    font-family: comic-sans, cursive, sans-serif;
+  }
+
+  @keyframes temblar {                        /* Animación para temblar la imagen al hacer hover */
+    0%   { transform: rotate(0deg); }
+   25%  { transform: rotate(3deg); }
+   50%  { transform: rotate(0deg); }
+   75%  { transform: rotate(-3deg); }
+   100% { transform: rotate(0deg); }
+  }
+   
+  .proceso {
+    margin-bottom: 40px;
+  }
+
+  .titulo {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .imagen-semana {
+    width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto 8px auto;
+    cursor: pointer;
+  }
+
+  .puntos-ppales {
+    padding-left: 32px; /*Sangría*/
+  }
+
+  .puntos-ppales li {
+    display: list-item;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;  
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 35px;
+    margin-bottom: 12px;
+    margin-top: 24px;
+  }
+
+  .esquema-imagen {
+    width: 400px;
+    height: auto;
+    display: block;
+    margin: 0 auto 8px auto;
+    cursor: pointer;
+  }
+
+  .aviso-imagen {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .aviso-imagen img {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+  .aviso-imagen span {
+    display: block;
+  }
+
+  #Japanzone {
+    width: 1115px;
+    height: 400px;
+  }
+
+  #ubicacion {
+    width: 800px;
+    height: 400px;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9999;
+  }
+
+  .activo {
+    display: flex;
+  }
+
+  .modal-img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;  
+    width: auto;
+    height: auto;
+  }
+
+  .esquemas-general {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+    margin-bottom: 24px;
+  }
+
+  .proyectos-general {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 32px 0px;
+  }
+
+  .tarjeta {
+    width: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    background-image: url('Imagenes/ESTAPARAELFONDO.jpg');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    background-color: #1e1e2e;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .preview {
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    padding: 40px;
+  }
+
+  .contenido-tarjeta {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    color: white
+  }
+
+  .título-tarjeta {
+    font-size: 30px;
+    font-weight: 600;
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-bottom: 0px;
+  }
+
+  .descripción-proyecto {
+    font-size: 16px;
+    color: white;
+    margin-bottom: 0px;
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+  .boton-tarjeta {
+    margin-top: auto;
+    padding: 12px;
+    background-color: #f97316;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.2s;
+    width: 100%;
+  }
+
+  .tarjeta-btn:hover {
+  background-color: #ea6c0a;
+}
+
+.fondo-tarjeta {
+  position: relative;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.tarjeta p,
+.tarjeta h3,
+.tarjeta span {
+  color: white !important;
+}
+
+#JZ {
+  height: 160px;
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+}
+
+#VJ {
+  height: 160px;
+  background-size: cover;
+  background-position:left; 
+  padding: 15 px;
+}
+
+.desplegable-principal{
+  border: 2px solid #7c3aed;
+  border-radius: 10px;
+  padding: 12px 20px;
+  margin: 20px 0;
+}
+
+.desplegable-principal >summary{
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #7c3aed;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.lista-de-referencias{
+  margin-top: 16px;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lista-de-referencias li {
+  font-size: 18px;
+  font-family: 'Times New Roman', Times, serif;
+  margin: 0;
+}
+
+.lista-de-referencias a {
+  color: #7c3aed;
+}
+
+.desplegable-secundario {
+  margin-top: 8px;
+  border-left: 3px solid #7c3aed;
+  padding-left: 16px;
+}
+
+.desplegable-secundario summary {
+  cursor: pointer;
+  color:#7c3aed;
+  font-size: 16px;
+}
+
+.desplegable-secundario p {
+  font-size: 16px !important;
+  color: #555 !important;
+  display: block !important;
+  margin-top: 8px !important;
+}
+
+.prompt-imagen {
+  max-width: 100%;
+  border-radius: 10px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.iframe {
+  border-radius: 10px;
+  display: block;
+  max-width: 100%;
+}
+
+.línea {
+  border: none;
+  border-top: 2px solid #7c3aed;
+  margin: 40px 0
+}
+
+.sobre-mi {
+  display: block;
+  margin: 20px 0 40px 0;
+  overflow: hidden;
+}
+
+.foto {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  float: left;
+  margin-right: 32px;
+  margin-bottom: 16px;
+  border: 3px solid #7c3aed;
+}
+
+.texto-sobre-mi {
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  color: #1a1a1a;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.info-de-contacto {
+  clear: both;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.info-de-contacto p {
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
