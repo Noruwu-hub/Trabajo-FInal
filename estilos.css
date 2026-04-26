@@ -421,7 +421,6 @@ tbody td {
   }
 
   .boton-tarjeta {
-    margin-top: auto;
     padding: 12px;
     background-color: #f97316;
     color: white;
@@ -432,6 +431,10 @@ tbody td {
     font-weight: bold;
     transition: background 0.2s;
     width: 100%;
+  }
+
+  .contenedor-boton-tarjeta{
+    margin-top: auto;
   }
 
   .tarjeta-btn:hover {
